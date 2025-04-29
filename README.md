@@ -7,11 +7,11 @@ To debug and interact with other tools, created Cookpedia using AI, Claude 3.7 a
 
 Mobile:
 
-![iOS](images/cookpedia-ios-1.png)
+<img src="images/cookpedia-ios-1.png" width="300">
 
 Desktop:
 
-![Windows](images/cookpedia-windows-1.png)
+<img src="images/cookpedia-windows-1.png" width="400">
 
 The AI successfully generated the pages, view models, styles, and other essential components. While the navigation and overall structure of each page are consistently designed, there is still room for refinement in the finer details to achieve greater alignment with the intended design.
 
