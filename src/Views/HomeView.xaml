@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:Cookpedia.Models"
     xmlns:viewModels="clr-namespace:Cookpedia.ViewModels"
-    x:Class="Cookpedia.Views.HomeView">
+    x:Class="Cookpedia.Views.HomeView"
+    Title="Cookpedia">
     <Grid>
         <ScrollView>
             <VerticalStackLayout Padding="20" Spacing="20">
@@ -106,8 +107,9 @@
                         <Label Text="See all" FontSize="14" TextColor="#4CAF50" Grid.Column="1" />
                     </Grid>
 
-                    <CollectionView ItemsSource="{Binding WeeklyRecipes}" 
-                                HorizontalScrollBarVisibility="Never">
+                    <CollectionView ItemsSource="{Binding WeeklyRecipes}"
+                                    HorizontalScrollBarVisibility="Never"
+                                    MaximumHeightRequest="150">
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Horizontal" ItemSpacing="15" />
                         </CollectionView.ItemsLayout>
