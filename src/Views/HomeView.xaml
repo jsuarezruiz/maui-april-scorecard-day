@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Cookpedia.Models"
+    xmlns:viewModels="clr-namespace:Cookpedia.ViewModels"
+    x:Class="Cookpedia.Views.HomeView">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <!-- Welcome Message -->
+                <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                    <StackLayout VerticalOptions="Start" HorizontalOptions="Start">
+                        <Label Text="Hello, Anne" FontSize="16" TextColor="#777777" />
+                        <Label Text="What would you like to cook today?" FontSize="20" FontAttributes="Bold" TextColor="Black" />
+                    </StackLayout>
+                    <Frame Grid.Column="1" CornerRadius="20" HeightRequest="40" WidthRequest="40" 
+                       Padding="0" BorderColor="Transparent" IsClippedToBounds="True" 
+                       HorizontalOptions="End" VerticalOptions="Start">
+                        <Image Source="profile_avatar.png" Aspect="AspectFill" />
+                    </Frame>
+                </Grid>
+
+                <!-- Search Bar -->
+                <Frame BorderColor="Transparent" BackgroundColor="#F5F5F5" CornerRadius="10" 
+                   Padding="15,0" HeightRequest="45">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Image Grid.Column="0" Source="search_icon.png" HeightRequest="20" WidthRequest="20" />
+                        <Label Grid.Column="1" Text="Search any recipes" VerticalOptions="Center" 
+                           BackgroundColor="Transparent" />
+                        <Image Grid.Column="2" Source="filter_icon.png" HeightRequest="20" WidthRequest="20" />
+                    </Grid>
+                </Frame>
+
+                <!-- Categories -->
+                <StackLayout>
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                        <Label Text="Categories" FontSize="18" FontAttributes="Bold" TextColor="Black" Grid.Column="0" />
+                        <Label Text="See all" FontSize="14" TextColor="#4CAF50" Grid.Column="1" />
+                    </Grid>
+
+                    <CollectionView ItemsSource="{Binding Categories}" 
+                                HeightRequest="100" 
+                                HorizontalScrollBarVisibility="Never">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Category">
+                                <Frame WidthRequest="70" HeightRequest="70" CornerRadius="10" 
+                                   HasShadow="False" Padding="5" Margin="0,0,10,0"
+                                   BackgroundColor="{Binding Name, Converter={StaticResource CategoryColorConverter}}">
+                                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Image Source="{Binding Icon}" HeightRequest="30" WidthRequest="30" />
+                                        <Label Text="{Binding Name}" FontSize="12" HorizontalOptions="Center" Margin="0,5,0,0" />
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <!-- Recommendation -->
+                <StackLayout>
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                        <Label Text="Recommendation" FontSize="18" FontAttributes="Bold" TextColor="Black" Grid.Column="0" />
+                        <Label Text="See all" FontSize="14" TextColor="#4CAF50" Grid.Column="1" />
+                    </Grid>
+
+                    <CollectionView ItemsSource="{Binding RecommendedRecipes}" 
+                                HeightRequest="190" 
+                                HorizontalScrollBarVisibility="Never">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="15" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Recipe">
+                                <Frame WidthRequest="125" HeightRequest="175" CornerRadius="10" 
+                                   HasShadow="False" Padding="0" BorderColor="Transparent"
+                                   BackgroundColor="White">
+                                    <Grid RowDefinitions="125,Auto">
+                                        <Frame Grid.Row="0" Padding="0" CornerRadius="10" 
+                                           IsClippedToBounds="True" BorderColor="Transparent">
+                                            <Image Source="{Binding ImageUrl}" Aspect="AspectFill" />
+                                        </Frame>
+                                        <VerticalStackLayout Grid.Row="1" Padding="10,5">
+                                            <Label Text="{Binding Name}" FontSize="14" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Author, StringFormat='By {0}'}" 
+                                               FontSize="12" TextColor="#777777" LineBreakMode="TailTruncation" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomeViewModel}}, Path=RecipeSelectedCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <!-- Recipes Of The Week -->
+                <StackLayout>
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                        <Label Text="Recipes Of The Week" FontSize="18" FontAttributes="Bold" TextColor="Black" Grid.Column="0" />
+                        <Label Text="See all" FontSize="14" TextColor="#4CAF50" Grid.Column="1" />
+                    </Grid>
+
+                    <CollectionView ItemsSource="{Binding WeeklyRecipes}" 
+                                HorizontalScrollBarVisibility="Never">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="15" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Recipe">
+                                <Frame WidthRequest="300" HeightRequest="125" CornerRadius="10" 
+                                   HasShadow="False" Padding="0" BorderColor="Transparent"
+                                   BackgroundColor="White">
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Frame Grid.Column="0" Padding="0" CornerRadius="10" 
+                                           IsClippedToBounds="True" BorderColor="Transparent">
+                                            <Image Source="{Binding ImageUrl}" Aspect="AspectFill" />
+                                        </Frame>
+                                        <VerticalStackLayout Grid.Column="1" Padding="15,10" VerticalOptions="Center">
+                                            <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding Author, StringFormat='By {0}'}" 
+                                               FontSize="14" TextColor="#777777" Margin="0,5,0,10" LineBreakMode="TailTruncation" />
+                                            <StackLayout Orientation="Horizontal" Spacing="15">
+                                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                                    <Image Source="time_icon.png" HeightRequest="16" WidthRequest="16" />
+                                                    <Label Text="{Binding PrepTimeMinutes, StringFormat='{0} mins'}" 
+                                                       FontSize="12" TextColor="#777777" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                                    <Image Source="calories_icon.png" HeightRequest="16" WidthRequest="16" />
+                                                    <Label Text="{Binding Calories, StringFormat='{0} cal'}" 
+                                                       FontSize="12" TextColor="#777777" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomeViewModel}}, Path=RecipeSelectedCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+        <!-- Floating Action Button -->
+        <Grid VerticalOptions="End" HorizontalOptions="End" Margin="0,10,20,20">
+            <Frame BackgroundColor="#4CAF50" CornerRadius="25" HeightRequest="50" WidthRequest="50" 
+                       Padding="0" HasShadow="True">
+                <Label Text="+" TextColor="White" FontSize="30" 
+                           VerticalOptions="Center" HorizontalOptions="Center" />
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

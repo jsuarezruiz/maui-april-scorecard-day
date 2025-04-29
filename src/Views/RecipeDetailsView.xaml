@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Cookpedia.Views.RecipeDetailsView"
+    xmlns:models="clr-namespace:Cookpedia.Models"
+    Shell.NavBarIsVisible="False"
+    Title="{Binding Recipe.Name}">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Recipe Image with Navigation Bar -->
+        <Grid Grid.Row="0" HeightRequest="300">
+            <Image Source="{Binding Recipe.ImageUrl}" Aspect="AspectFill" />
+
+            <!-- Overlay for top buttons -->
+            <Grid Margin="20,40" ColumnDefinitions="Auto,*,Auto">
+                <!-- Back Button -->
+                <Button Grid.Column="0" 
+                        Command="{Binding BackCommand}"
+                        CornerRadius="20"
+                        HeightRequest="40" WidthRequest="40"
+                        BackgroundColor="White"
+                        ImageSource="back_icon.png" 
+                        VerticalOptions="Start" />
+
+                <!-- Bookmark Button -->
+                <Button Grid.Column="2" 
+                        Command="{Binding BookmarkCommand}"
+                        CornerRadius="20"
+                        HeightRequest="40" WidthRequest="40"
+                        BackgroundColor="White"
+                        ImageSource="bookmark_icon.png"
+                        VerticalOptions="Start" />
+            </Grid>
+
+            <!-- Pagination Indicators -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center"
+                         VerticalOptions="End" Margin="0,0,0,20" Spacing="5">
+                <Frame CornerRadius="5" HeightRequest="10" WidthRequest="10" 
+                       BackgroundColor="White" HasShadow="False" Padding="0" />
+                <Frame CornerRadius="5" HeightRequest="10" WidthRequest="10" 
+                       BackgroundColor="LightGray" HasShadow="False" Padding="0" />
+                <Frame CornerRadius="5" HeightRequest="10" WidthRequest="10" 
+                       BackgroundColor="LightGray" HasShadow="False" Padding="0" />
+            </StackLayout>
+        </Grid>
+
+        <!-- Recipe Details -->
+        <Frame Grid.Row="1" 
+               BorderColor="Transparent"
+               CornerRadius="30"
+               HasShadow="False"
+               Margin="0,-30,0,0"
+               BackgroundColor="White">
+
+            <ScrollView>
+                <VerticalStackLayout Padding="20,10" Spacing="20">
+                    <!-- Recipe Title and Rating -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="{Binding Recipe.Name}" 
+                                   FontSize="24" 
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding Recipe.Author, StringFormat='By {0}'}" 
+                                   FontSize="16" 
+                                   TextColor="#777777" 
+                                   Margin="0,5,0,0" />
+                        </VerticalStackLayout>
+
+                        <Frame Grid.Column="1"
+                               BackgroundColor="#FFF9C4"
+                               CornerRadius="8"
+                               HasShadow="False"
+                               Padding="10,5"
+                               VerticalOptions="Start">
+                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                <Image Source="star_icon.png" HeightRequest="16" WidthRequest="16" />
+                                <Label Text="{Binding Recipe.Rating}" FontSize="14" TextColor="#FFA000" />
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+
+                    <!-- Recipe Metrics -->
+                    <FlexLayout JustifyContent="SpaceBetween">
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Image Source="time_icon.png" HeightRequest="20" WidthRequest="20" />
+                            <Label Text="{Binding Recipe.PrepTimeMinutes, StringFormat='{0} mins'}" 
+                                   FontSize="14" 
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Image Source="difficulty_icon.png" HeightRequest="20" WidthRequest="20" />
+                            <Label Text="{Binding Recipe.Difficulty}" 
+                                   FontSize="14" 
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Image Source="calories_icon.png" HeightRequest="20" WidthRequest="20" />
+                            <Label Text="{Binding Recipe.Calories, StringFormat='{0} cal'}" 
+                                   FontSize="14" 
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                    </FlexLayout>
+
+                    <!-- Description Section -->
+                    <StackLayout>
+                        <Label Text="Description" 
+                               FontSize="18" 
+                               FontAttributes="Bold" 
+                               Margin="0,0,0,10" />
+                        <Label Text="{Binding Recipe.Description}" 
+                               FontSize="14" 
+                               TextColor="#777777" />
+                    </StackLayout>
+
+                    <!-- Ingredients Section -->
+                    <StackLayout>
+                        <Label Text="Ingredients" 
+                               FontSize="18" 
+                               FontAttributes="Bold" 
+                               Margin="0,0,0,10" />
+
+                        <CollectionView ItemsSource="{Binding Recipe.Ingredients}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Ingredient">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" Padding="0,10">
+                                        <Frame Grid.Column="0"
+                                               CornerRadius="8"
+                                               HeightRequest="40" WidthRequest="40"
+                                               Padding="5"
+                                               BackgroundColor="#F5F5F5"
+                                               HasShadow="False"
+                                               Margin="0,0,15,0">
+                                            <Image Source="{Binding ImageUrl}" Aspect="AspectFit" />
+                                        </Frame>
+
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Name}"
+                                               FontSize="16"
+                                               VerticalOptions="Center" />
+
+                                        <Label Grid.Column="2"
+                                               Text="{Binding Amount}"
+                                               FontSize="16"
+                                               VerticalOptions="Center"
+                                               FontAttributes="Bold" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- Watch Videos Button -->
+                        <Button Text="Watch Videos"
+                                Command="{Binding WatchVideoCommand}"
+                                BackgroundColor="#4CAF50"
+                                TextColor="White"
+                                CornerRadius="25"
+                                HeightRequest="50"
+                                Margin="20,10" />
+                    </StackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Frame>
+    </Grid>
+</ContentPage>

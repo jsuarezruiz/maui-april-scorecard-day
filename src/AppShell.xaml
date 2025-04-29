@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Cookpedia.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Cookpedia.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Cookpedia">
+
+    <TabBar>
+        <Tab Title="Home" Icon="home_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HomeView}" />
+        </Tab>
+        <Tab Title="Search" Icon="search_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:EmptyView}" />
+        </Tab>
+        <Tab Title="Bookmarks" Icon="bookmark_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:BookmarkView}" />
+        </Tab>
+        <Tab Title="Profile" Icon="profile_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:EmptyView}" />
+        </Tab>
+    </TabBar>
+    
+</Shell>
